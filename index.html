@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Title</title>
+</head>
+
+<body>
+    
+    <button id="tb">버튼!</button>
+    <script>
+        const tb = document.getElementById('tb')
+        tb.style.width = '300px'
+        tb.style.height = '100px'
+        tb.addEventListener('click', () => {
+            alert('버튼 눌림')
+        })
+    </script>
+    
+    <script type="module">
+        import { init } from './src/main.ts'
+        init()
+    </script>
+</body>
+
+</html>
