@@ -14,16 +14,7 @@ export function init() {
     container.style.border = '1px solid red'
     document.body.appendChild(container)
 
-    // test.
-    // const b = document.createElement('button')
-    // b.id = '_b'
-    // b.style.width = '50px'
-    // b.style.height = '30px'
-    // b.style.pointerEvents = 'auto'
-    // b.addEventListener('click', () => {
-    //     alert('캔버스 위 버튼 눌림')
-    // })
-    // container.appendChild(b)
+    // container.style.display = "none"
 
     const game = new Phaser.Game(config)
 }
