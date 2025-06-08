@@ -8,20 +8,23 @@
 </head>
 
 <body>
-    
-    <button id="tb">버튼!</button>
-    <script>
-        const tb = document.getElementById('tb')
-        tb.style.width = '300px'
-        tb.style.height = '100px'
-        tb.addEventListener('click', () => {
-            alert('버튼 눌림')
-        })
-    </script>
-    
+    <button id="t">기본 레이아웃</button>
+    <button id="c">생성</button>
+    <button id="d">삭제</button>
+
     <script type="module">
-        import { init } from './src/main.ts'
-        init()
+        import { create, destroy } from './src/main.ts'
+
+        const t = document.getElementById('t')
+        const c = document.getElementById('c')
+        const d = document.getElementById('d')
+
+        t.style.width = '300px'
+        t.style.height = '100px'
+
+        t.addEventListener('click', () => { alert('기본 레이아웃 눌림') })
+        c.addEventListener('click', () => { create() })
+        d.addEventListener('click', () => { destroy() })
     </script>
 </body>
 

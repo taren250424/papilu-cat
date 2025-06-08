@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import catSprite from '../assets/spritesheets/cat.png'
 
 export default class LoadingScene extends Phaser.Scene {
     constructor() {
@@ -6,7 +7,8 @@ export default class LoadingScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.spritesheet('cat_sprite', 'spritesheets/cat.png', {
+        // this.load.spritesheet('cat_sprite', 'spritesheets/cat.png', {
+        this.load.spritesheet('cat_sprite', catSprite, {
             frameWidth: 144.3,
             frameHeight: 144.25
         })

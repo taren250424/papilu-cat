@@ -1,11 +1,16 @@
-import './style.scss'
+import './main.scss'
 
 import Phaser from 'phaser'
 import config from './config'
 import { CONTAINER_ID } from './constants/domId'
 
-export function init() {
-    const container = document.createElement('div')
+let game: Phaser.Game | null = null
+let container: HTMLDivElement | null = null
+
+export function create() {
+    if (game) return
+
+    container = document.createElement('div')
     container.id = CONTAINER_ID
     container.style.position = 'fixed'
     container.style.top = '0'
@@ -14,7 +19,17 @@ export function init() {
     container.style.border = '1px solid red'
     document.body.appendChild(container)
 
-    // container.style.display = "none"
+    game = new Phaser.Game(config)
+}
 
-    const game = new Phaser.Game(config)
+export function destroy() {
+    if (game) {
+        game.destroy(true)
+        game = null
+    }
+
+    if (container) {
+        container.remove()
+        container = null
+    }
 }

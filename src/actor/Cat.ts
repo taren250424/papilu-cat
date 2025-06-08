@@ -13,8 +13,7 @@ export default class Cat extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this)
         scene.physics.add.existing(this)
 
-        this.setInteractive()
-
+        this.setInteractive({ useHandCursor: true })
         this.on('pointerdown', () => { alert('고양이를 눌렀습니다!') })
 
         this.play(animkey)
