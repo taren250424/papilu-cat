@@ -1,8 +1,8 @@
-import Phaser from 'phaser'
-import config from '../config'
-import Actor from './Actor'
+import Phaser from "phaser"
+import config from "../config"
+import Actor from "./Actor"
 
-export default class Cat extends Actor {
+export default class Butterfly extends Actor {
     constructor(
         scene: Phaser.Scene,
         x: number,

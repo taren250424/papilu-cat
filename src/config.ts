@@ -4,8 +4,8 @@ import PlayingScene from './scenes/PlayingScene'
 
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: window.innerWidth,
+    height: window.innerHeight,
     transparent: true,
     scene: [LoadingScene, PlayingScene],
     parent: CONTAINER_ID,
@@ -13,7 +13,6 @@ const config = {
         default: 'arcade',
         arcade: { debug: false }
     },
-    fps: { target: 30, forceSetTimeOut: true }
 }
 
 export default config

@@ -5,25 +5,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Title</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+        
+        body {
+            background-image: url(/public/grass.jpg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            
+            gap: 50px;
+        }
+
+        button {
+           width: 500px; 
+           height: 100px;
+
+           border: 1px solid white;
+           background-color: transparent;
+           color: white;
+           font-size: 24px;
+        }
+
+        button:hover {
+            background-color: #3E3E3E;
+        }
+    </style>
 </head>
 
 <body>
-    <button id="t">기본 레이아웃</button>
-    <button id="c">생성</button>
-    <button id="d">삭제</button>
+    <div id="container">
+        <button id="c">생성</button>
+        <button id="b">버튼</button>
+        <button id="d">삭제</button>
+    </div>
 
     <script type="module">
         import { create, destroy } from './src/main.ts'
 
-        const t = document.getElementById('t')
         const c = document.getElementById('c')
+        const b = document.getElementById('b')
         const d = document.getElementById('d')
 
-        t.style.width = '300px'
-        t.style.height = '100px'
-
-        t.addEventListener('click', () => { alert('기본 레이아웃 눌림') })
         c.addEventListener('click', () => { create() })
+        b.addEventListener('click', () => { alert('push') })
         d.addEventListener('click', () => { destroy() })
     </script>
 </body>

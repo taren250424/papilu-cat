@@ -1,5 +1,7 @@
 import Phaser from 'phaser'
 import catSprite from '../assets/spritesheets/cat.png'
+import butterflySprite from '../assets/spritesheets/butterfly.png'
+import { SPRITES, ANIMS } from '../constants/animationKey'
 
 export default class LoadingScene extends Phaser.Scene {
     constructor() {
@@ -7,38 +9,28 @@ export default class LoadingScene extends Phaser.Scene {
     }
 
     preload() {
-        // this.load.spritesheet('cat_sprite', 'spritesheets/cat.png', {
-        this.load.spritesheet('cat_sprite', catSprite, {
-            frameWidth: 144.3,
-            frameHeight: 144.25
+        this.load.spritesheet(SPRITES.CAT, catSprite, {
+            frameWidth: 74,
+            frameHeight: 62.5
+        })
+
+        this.load.spritesheet(SPRITES.BUTTERFLY, butterflySprite, {
+            frameWidth: 16,
+            frameHeight: 16
         })
     }
 
     create() {
         this.anims.create({
-            key: "cat_downAnim",
-            frames: this.anims.generateFrameNumbers('cat_sprite', { start: 0, end: 2 }),
+            key: ANIMS.CAT,
+            frames: this.anims.generateFrameNumbers(SPRITES.CAT, {start: 0, end: 2}),
             frameRate: 10,
             repeat: -1
         })
 
         this.anims.create({
-            key: "cat_leftAnim",
-            frames: this.anims.generateFrameNumbers('cat_sprite', { start: 3, end: 5 }),
-            frameRate: 10,
-            repeat: -1
-        })
-
-        this.anims.create({
-            key: "cat_rightAnim",
-            frames: this.anims.generateFrameNumbers('cat_sprite', { start: 6, end: 8 }),
-            frameRate: 10,
-            repeat: -1
-        })
-
-        this.anims.create({
-            key: "cat_upAnim",
-            frames: this.anims.generateFrameNumbers('cat_sprite', { start: 9, end: 11 }),
+            key: ANIMS.BUTTERFLY,
+            frames: this.anims.generateFrameNumbers(SPRITES.BUTTERFLY),
             frameRate: 10,
             repeat: -1
         })
