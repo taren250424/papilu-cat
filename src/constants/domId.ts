@@ -1,1 +1,1 @@
-export const CONTAINER_ID = 'cat-widget-container'
+export const CONTAINER_ID = 'papilu-cat-container'

@@ -4,6 +4,7 @@ import config from "../config"
 export default class Actor extends Phaser.Physics.Arcade.Sprite {
     private moveTimer?: Phaser.Time.TimerEvent
     protected div: HTMLElement
+    private angleCorrection: number
     
     constructor(
         scene: Phaser.Scene,
@@ -11,18 +12,16 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
         y: number,
         texture: string,
         animkey: string,
-        divPadding: number,
+        angleCorrection: number,
         private minDelay = 1000,
         private maxDelay = 3000,
-        private moveArea = { xMin: 0, xMax: config.width, yMin: 0, yMax: config.height }
     ) {
         super(scene, x, y, texture)
 
-        this.div = this.createAndAppendDiv(divPadding)
+        this.div = this.createAndAppendDiv()
+        this.angleCorrection = angleCorrection
 
-        this.div.addEventListener('click', () => {
-            alert(this.constructor.name)
-        })
+        this.div.addEventListener('click', () => { this.onClick() })
 
         scene.add.existing(this)
         scene.physics.add.existing(this)
@@ -43,6 +42,8 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
         super.destroy()
     }
 
+    protected onClick() {}
+
     private scheduleMovement() {
         const delay = Phaser.Math.Between(this.minDelay, this.maxDelay)
         this.moveTimer = this.scene.time.addEvent({
@@ -53,16 +54,15 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
     }
 
     private moveToRandomPosition() {
-        const { xMin, xMax, yMin, yMax } = this.moveArea
-        const targetX = Phaser.Math.Between(xMin, xMax)
-        const targetY = Phaser.Math.Between(yMin, yMax)
+        const targetX = Phaser.Math.Between(0, config.width)
+        const targetY = Phaser.Math.Between(0, config.height)
 
         const distance = Phaser.Math.Distance.Between(this.x, this.y, targetX, targetY)
         const duration = distance / 0.01
 
         // Sprite is facing up by default.
         const angle = Phaser.Math.Angle.Between(this.x, this.y, targetX, targetY)
-        this.rotation = angle + Phaser.Math.DegToRad(90)
+        this.rotation = angle + Phaser.Math.DegToRad(this.angleCorrection)
 
         this.scene.tweens.add({
             targets: this,
@@ -76,16 +76,15 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
         })
     }
 
-    private createAndAppendDiv(divPadding: number): HTMLElement {
+    private createAndAppendDiv(): HTMLElement {
         const dom = document.createElement('div')
-        dom.className = 'actorDiv'
-        dom.style.position = 'fixed'
-        dom.style.pointerEvents = 'auto'
+        dom.style.width = `${this.width}px`
+        dom.style.height = `${this.height}px`
         dom.style.transform = 'translate(-50%, -50%)'
         dom.style.borderRadius = '50%';
-        dom.style.width = `${this.width - divPadding}px`
-        dom.style.height = `${this.height - divPadding}px`
-        // dom.style.backgroundColor = 'yellow'
+        dom.style.position = 'fixed'
+        dom.style.pointerEvents = 'auto'
+        dom.style.cursor = 'pointer'
         document.body.appendChild(dom)
         return dom
     }

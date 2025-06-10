@@ -1,5 +1,4 @@
 import Phaser from 'phaser'
-import config from '../config'
 import Actor from './Actor'
 
 export default class Cat extends Actor {
@@ -9,11 +8,14 @@ export default class Cat extends Actor {
         y: number,
         texture: string,
         animkey: string,
-        padding: number,
+        angleCorrection: number,
         minDelay = 1000,
         maxDelay = 3000,
-        moveArea = { xMin: 0, xMax: config.width, yMin: 0, yMax: config.height }
     ) {
-        super(scene, x, y, texture, animkey, padding, minDelay, maxDelay, moveArea)
+        super(scene, x, y, texture, animkey, angleCorrection, minDelay, maxDelay)
+    }
+
+    protected onClick() {
+        alert('I am a cat')
     }
 }

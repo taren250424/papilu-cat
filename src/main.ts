@@ -2,12 +2,16 @@ import './main.scss'
 
 import Phaser from 'phaser'
 import config from './config'
+import LoadingScene from './scenes/LoadingScene'
+import PlayingScene from './scenes/PlayingScene'
 import { CONTAINER_ID } from './constants/domId'
+
+import PapiluCatConfig from './PapiluCatConfig'
 
 let game: Phaser.Game | null = null
 let container: HTMLDivElement | null = null
 
-export function create() {
+export function create(data: PapiluCatConfig) {
     if (game) return
 
     container = document.createElement('div')
@@ -26,6 +30,10 @@ export function create() {
 
     document.body.appendChild(container)
     game = new Phaser.Game(config)
+
+    game.scene.add('LoadingScene', LoadingScene)
+    game.scene.add('PlayingScene', PlayingScene)
+    game.scene.start('LoadingScene', data)
 }
 
 export function destroy() {
