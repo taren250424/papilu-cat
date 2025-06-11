@@ -13,6 +13,7 @@ let container: HTMLDivElement | null = null
 
 export function create(data: PapiluCatConfig) {
     if (game) return
+    // if (window.innerWidth < 900) return  // Mobile.
 
     container = document.createElement('div')
     container.id = CONTAINER_ID

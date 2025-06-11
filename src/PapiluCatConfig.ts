@@ -1,19 +1,27 @@
-export default interface PapiluCatConfig {
-    cat: {
-        sprite: string
-        spriteWidth: number
-        spriteHeight: number
-        spriteStartIndex: number
-        spriteEndIndex: number
-        spriteAngleCorrection: number
-    }
+interface SpriteConfig {
+    sprite: string
+    spriteWidth: number
+    spriteHeight: number
+    spriteStartIndex: number
+    spriteEndIndex: number
+    spriteFrameRate: number
+    spriteAngleCorrection: number
+}
 
-    fly: {
+export default interface PapiluCatConfig {
+    loading?: Partial<{
         sprite: string
         spriteWidth: number
         spriteHeight: number
         spriteStartIndex: number
         spriteEndIndex: number
-        spriteAngleCorrection: number
-    }
+        spriteFrameRate: number
+    }>
+    
+    catIdle?: Partial<SpriteConfig>
+    catMove?: Partial<SpriteConfig>
+    catFirstAction?: Partial<SpriteConfig>
+    catSecondAction?: Partial<SpriteConfig>
+    flyIdle?: Partial<SpriteConfig>
+    flyMove?: Partial<SpriteConfig>
 }

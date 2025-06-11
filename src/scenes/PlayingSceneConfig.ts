@@ -1,4 +1,8 @@
 export default interface PlayingSceneConfig {
-    catSpriteAngleCorrection: number,
-    flySpriteAngleCorrection: number,
+    catIdleSpriteAngleCorrection: number,
+    catMoveSpriteAngleCorrection: number,
+    catFirstActionSpriteAngleCorrection: number,
+    catSecondActionSpriteAngleCorrection: number,
+    flyIdleSpriteAngleCorrection: number,
+    flyMoveSpriteAngleCorrection: number,
 }

@@ -53,31 +53,81 @@
         import { create, destroy } from './src/main.ts'
 
         const c = document.getElementById('c')
-        const b = document.getElementById('b')
         const d = document.getElementById('d')
 
         c.addEventListener('click', () => {
             create({
-                cat: {
-                    sprite: 'spritesheets/cat.png',
-                    spriteWidth: 74,
-                    spriteHeight: 62,
+                loading: {
+                    sprite: 'spritesheets/loading.png',
+                    spriteWidth: 158,
+                    spriteHeight: 316,
+                    spriteStartIndex: 0,
+                    spriteEndIndex: 4,
+                    spriteFrameRate: 8,
+                },
+
+                catIdle: {
+                    sprite: 'spritesheets/catIdle.png',
+                    spriteWidth: 70.3,
+                    spriteHeight: 62.5,
+                    spriteStartIndex: 4,
+                    spriteEndIndex: 5,
+                    spriteFrameRate: 1,
+                    spriteAngleCorrection: 90,
+                },
+
+                catMove: {
+                    sprite: 'spritesheets/catMove.png',
+                    spriteWidth: 70.3,
+                    spriteHeight: 62.5,
                     spriteStartIndex: 0,
                     spriteEndIndex: 2,
+                    spriteFrameRate: 8,
+                    spriteAngleCorrection: 90,
+                },
+
+                catFirstAction: {
+                    sprite: 'spritesheets/catFirstAction.png',
+                    spriteWidth: 125,
+                    spriteHeight: 125,
+                    spriteStartIndex: 0,
+                    spriteEndIndex: 3,
+                    spriteFrameRate: 8,
+                    spriteAngleCorrection: 90,
+                },
+
+                catSecondAction: {
+                    sprite: 'spritesheets/catSecondAction.png',
+                    spriteWidth: 16,
+                    spriteHeight: 16,
+                    spriteStartIndex: 0,
+                    spriteEndIndex: 4,
+                    spriteFrameRate: 8,
                     spriteAngleCorrection: 90,
                 },
             
-                fly: {
-                    sprite: 'spritesheets/fly.png',
+                flyIdle: {
+                    sprite: 'spritesheets/flyIdle.png',
+                    spriteWidth: 16,
+                    spriteHeight: 16,
+                    spriteStartIndex: 1,
+                    spriteEndIndex: 1,
+                    spriteFrameRate: 4,
+                    spriteAngleCorrection: 90,
+                },
+
+                flyMove: {
+                    sprite: 'spritesheets/flyMove.png',
                     spriteWidth: 16,
                     spriteHeight: 16,
                     spriteStartIndex: 0,
                     spriteEndIndex: 5,
+                    spriteFrameRate: 8,
                     spriteAngleCorrection: 90,
-                },
+                }
+                
             })
         })
-        b.addEventListener('click', () => { alert('push') })
         d.addEventListener('click', () => { destroy() })
     </script>
 </body>

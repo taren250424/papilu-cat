@@ -4,7 +4,9 @@ import config from "../config"
 export default class Actor extends Phaser.Physics.Arcade.Sprite {
     private moveTimer?: Phaser.Time.TimerEvent
     protected div: HTMLElement
-    private angleCorrection: number
+    protected angleCorrection: number
+    protected minDelay: number = 1000
+    protected maxDelay: number = 3000
     
     constructor(
         scene: Phaser.Scene,
@@ -12,23 +14,22 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
         y: number,
         texture: string,
         animkey: string,
-        angleCorrection: number,
-        private minDelay = 1000,
-        private maxDelay = 3000,
+        angleCorrection: number
     ) {
         super(scene, x, y, texture)
 
-        this.div = this.createAndAppendDiv()
         this.angleCorrection = angleCorrection
+        this.div = this.createAndAppendDiv()
 
-        this.div.addEventListener('click', () => { this.onClick() })
+        this.div.addEventListener('pointerdown', () => { this.onPointerDownOrOver() })
+        this.div.addEventListener('pointerover', () => { this.onPointerDownOrOver() })
 
         scene.add.existing(this)
         scene.physics.add.existing(this)
 
         this.play(animkey)
 
-        this.scheduleMovement()
+        // this.scheduleMovement()
     }
 
     update(cam: Phaser.Cameras.Scene2D.Camera, canvasRect: DOMRect): void {
@@ -42,7 +43,7 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
         super.destroy()
     }
 
-    protected onClick() {}
+    protected onPointerDownOrOver() {}
 
     private scheduleMovement() {
         const delay = Phaser.Math.Between(this.minDelay, this.maxDelay)
@@ -85,6 +86,7 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
         dom.style.position = 'fixed'
         dom.style.pointerEvents = 'auto'
         dom.style.cursor = 'pointer'
+        // dom.style.backgroundColor = 'yellow'
         document.body.appendChild(dom)
         return dom
     }

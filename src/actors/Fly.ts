@@ -1,21 +1,23 @@
 import Phaser from "phaser"
 import Actor from "./Actor"
+import config from '../config'
+import { SPRITES, ANIMS } from '../constants/animationKey'
 
 export default class Fly extends Actor {
+    private idleAngleCorrection: number
+    private moveAngleCorrection: number
+
     constructor(
         scene: Phaser.Scene,
-        x: number,
-        y: number,
-        texture: string,
-        animkey: string,
-        angleCorrection: number,
-        minDelay = 1000,
-        maxDelay = 3000,
+        idleAngleCorrection: number,
+        moveAngleCorrection: number,
     ) {
-        super(scene, x, y, texture, animkey, angleCorrection, minDelay, maxDelay)
+        super(scene, config.width / 4, config.height / 4, SPRITES.FLY_IDLE, ANIMS.FLY_IDLE, idleAngleCorrection)
+        this.idleAngleCorrection = idleAngleCorrection
+        this.moveAngleCorrection = moveAngleCorrection
     }
 
-    protected onClick() {
+    protected onPointerDownOrOver() {
         alert('I am a fly')
     }
 }
