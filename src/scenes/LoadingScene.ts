@@ -1,64 +1,35 @@
 import Phaser from 'phaser'
 import { SPRITES, ANIMS } from '../constants/animationKey'
 import PapiluCatConfig from '../PapiluCatConfig'
+import SpriteConfig from '../SpriteConfig'
 import PlayingSceneConfig from './PlayingSceneConfig'
 import config from '../config'
 
 export default class LoadingScene extends Phaser.Scene {
-    private loadingSprite!: string
-    private loadingSpriteWidth!: number
-    private loadingSpriteHeight!: number
-    private loadingSpriteStartIndex!: number
-    private loadingSpriteEndIndex!: number
-    private loadingSpriteFrameRate!: number
+    private loadingImg!: string
+    private loadingWidth!: number
+    private loadingHeight!: number
+    private loadingStartIndex!: number
+    private loadingEndIndex!: number
+    private loadingFrameRate!: number
 
-    private catIdleSprite!: string
-    private catIdleSpriteWidth!: number
-    private catIdleSpriteHeight!: number
-    private catIdleSpriteStartIndex!: number
-    private catIdleSpriteEndIndex!: number
-    private catIdleSpriteFrameRate!: number
-    private catIdleSpriteAngleCorrection!: number
+    private catIdleImg!: string
+    private catIdleWidth!: number
+    private catIdleHeight!: number
+    private catIdleStartIndex!: number
+    private catIdleEndIndex!: number
+    private catIdleFrameRate!: number
+    private catIdleAngleCorrection!: number
 
-    private catMoveSprite!: string
-    private catMoveSpriteWidth!: number
-    private catMoveSpriteHeight!: number
-    private catMoveSpriteStartIndex!: number
-    private catMoveSpriteEndIndex!: number
-    private catMoveSpriteFrameRate!: number
-    private catMoveSpriteAngleCorrection!: number
+    private catMoveImg!: string
+    private catMoveWidth!: number
+    private catMoveHeight!: number
+    private catMoveStartIndex!: number
+    private catMoveEndIndex!: number
+    private catMoveFrameRate!: number
+    private catMoveAngleCorrection!: number
 
-    private catFirstActionSprite!: string
-    private catFirstActionSpriteWidth!: number
-    private catFirstActionSpriteHeight!: number
-    private catFirstActionSpriteStartIndex!: number
-    private catFirstActionSpriteEndIndex!: number
-    private catFirstActionSpriteFrameRate!: number
-    private catFirstActionSpriteAngleCorrection!: number
-
-    private catSecondActionSprite!: string
-    private catSecondActionSpriteWidth!: number
-    private catSecondActionSpriteHeight!: number
-    private catSecondActionSpriteStartIndex!: number
-    private catSecondActionSpriteEndIndex!: number
-    private catSecondActionSpriteFrameRate!: number
-    private catSecondActionSpriteAngleCorrection!: number
-
-    private flyIdleSprite!: string
-    private flyIdleSpriteWidth!: number
-    private flyIdleSpriteHeight!: number
-    private flyIdleSpriteStartIndex!: number
-    private flyIdleSpriteEndIndex!: number
-    private flyIdleSpriteFrameRate!: number
-    private flyIdleSpriteAngleCorrection!: number
-
-    private flyMoveSprite!: string
-    private flyMoveSpriteWidth!: number
-    private flyMoveSpriteHeight!: number
-    private flyMoveSpriteStartIndex!: number
-    private flyMoveSpriteEndIndex!: number
-    private flyMoveSpriteFrameRate!: number
-    private flyMoveSpriteAngleCorrection!: number
+    private catActions!: SpriteConfig[]
 
     constructor() {
         super('LoadingScene')
@@ -66,198 +37,93 @@ export default class LoadingScene extends Phaser.Scene {
 
     init(papiluCatConfig: PapiluCatConfig) {
         if (
-            papiluCatConfig.loading?.sprite !== undefined &&
-            papiluCatConfig.loading?.spriteWidth !== undefined &&
-            papiluCatConfig.loading?.spriteHeight !== undefined &&
-            papiluCatConfig.loading?.spriteStartIndex !== undefined &&
-            papiluCatConfig.loading?.spriteEndIndex !== undefined &&
-            papiluCatConfig.loading?.spriteFrameRate !== undefined 
+            papiluCatConfig.loading?.img !== undefined &&
+            papiluCatConfig.loading?.width !== undefined &&
+            papiluCatConfig.loading?.height !== undefined &&
+            papiluCatConfig.loading?.startIndex !== undefined &&
+            papiluCatConfig.loading?.endIndex !== undefined &&
+            papiluCatConfig.loading?.frameRate !== undefined 
         ) {
-            this.loadingSprite = papiluCatConfig.loading?.sprite
-            this.loadingSpriteWidth = papiluCatConfig.loading?.spriteWidth
-            this.loadingSpriteHeight = papiluCatConfig.loading?.spriteHeight
-            this.loadingSpriteStartIndex = papiluCatConfig.loading?.spriteStartIndex
-            this.loadingSpriteEndIndex = papiluCatConfig.loading?.spriteEndIndex
-            this.loadingSpriteFrameRate = papiluCatConfig.loading?.spriteFrameRate
+            this.loadingImg = papiluCatConfig.loading?.img
+            this.loadingWidth = papiluCatConfig.loading?.width
+            this.loadingHeight = papiluCatConfig.loading?.height
+            this.loadingStartIndex = papiluCatConfig.loading?.startIndex
+            this.loadingEndIndex = papiluCatConfig.loading?.endIndex
+            this.loadingFrameRate = papiluCatConfig.loading?.frameRate
         } else {
-            this.loadingSprite = 'src/assets/spritesheets/default_loading.png'
-            this.loadingSpriteWidth = 80.375
-            this.loadingSpriteHeight = 360
-            this.loadingSpriteStartIndex = 0
-            this.loadingSpriteEndIndex = 7
-            this.loadingSpriteFrameRate = 10
+            this.loadingImg = 'src/assets/spritesheets/default_loading.png'
+            this.loadingWidth = 80.375
+            this.loadingHeight = 360
+            this.loadingStartIndex = 0
+            this.loadingEndIndex = 7
+            this.loadingFrameRate = 10
         }
 
         if (
-            papiluCatConfig.catIdle?.sprite !== undefined &&
-            papiluCatConfig.catIdle?.spriteWidth !== undefined &&
-            papiluCatConfig.catIdle?.spriteHeight !== undefined &&
-            papiluCatConfig.catIdle?.spriteStartIndex !== undefined &&
-            papiluCatConfig.catIdle?.spriteEndIndex !== undefined &&
-            papiluCatConfig.catIdle?.spriteFrameRate !== undefined &&
-            papiluCatConfig.catIdle?.spriteAngleCorrection !== undefined
+            papiluCatConfig.catIdle?.img !== undefined &&
+            papiluCatConfig.catIdle?.width !== undefined &&
+            papiluCatConfig.catIdle?.height !== undefined &&
+            papiluCatConfig.catIdle?.startIndex !== undefined &&
+            papiluCatConfig.catIdle?.endIndex !== undefined &&
+            papiluCatConfig.catIdle?.frameRate !== undefined &&
+            papiluCatConfig.catIdle?.angleCorrection !== undefined &&
+            papiluCatConfig.catMove?.img !== undefined &&
+            papiluCatConfig.catMove?.width !== undefined &&
+            papiluCatConfig.catMove?.height !== undefined &&
+            papiluCatConfig.catMove?.startIndex !== undefined &&
+            papiluCatConfig.catMove?.endIndex !== undefined &&
+            papiluCatConfig.catMove?.frameRate !== undefined &&
+            papiluCatConfig.catMove?.angleCorrection !== undefined
         ) {
-            this.catIdleSprite = papiluCatConfig.catIdle.sprite
-            this.catIdleSpriteWidth = papiluCatConfig.catIdle.spriteWidth
-            this.catIdleSpriteHeight = papiluCatConfig.catIdle.spriteHeight
-            this.catIdleSpriteStartIndex = papiluCatConfig.catIdle.spriteStartIndex
-            this.catIdleSpriteEndIndex = papiluCatConfig.catIdle.spriteEndIndex
-            this.catIdleSpriteFrameRate = papiluCatConfig.catIdle.spriteFrameRate
-            this.catIdleSpriteAngleCorrection = papiluCatConfig.catIdle.spriteAngleCorrection
+            this.catIdleImg = papiluCatConfig.catIdle.img
+            this.catIdleWidth = papiluCatConfig.catIdle.width
+            this.catIdleHeight = papiluCatConfig.catIdle.height
+            this.catIdleStartIndex = papiluCatConfig.catIdle.startIndex
+            this.catIdleEndIndex = papiluCatConfig.catIdle.endIndex
+            this.catIdleFrameRate = papiluCatConfig.catIdle.frameRate
+            this.catIdleAngleCorrection = papiluCatConfig.catIdle.angleCorrection
+            this.catMoveImg = papiluCatConfig.catMove.img
+            this.catMoveWidth = papiluCatConfig.catMove.width
+            this.catMoveHeight = papiluCatConfig.catMove.height
+            this.catMoveStartIndex = papiluCatConfig.catMove.startIndex
+            this.catMoveEndIndex = papiluCatConfig.catMove.endIndex
+            this.catMoveFrameRate = papiluCatConfig.catMove.frameRate
+            this.catMoveAngleCorrection = papiluCatConfig.catMove.angleCorrection
         } else {
-            this.catIdleSprite = 'src/assets/spritesheets/default_catIdle.png'
-            this.catIdleSpriteWidth = 74
-            this.catIdleSpriteHeight = 62.5
-            this.catIdleSpriteStartIndex = 4
-            this.catIdleSpriteEndIndex = 5
-            this.catIdleSpriteFrameRate = 1
-            this.catIdleSpriteAngleCorrection = 90
+            this.catIdleImg = 'src/assets/spritesheets/default_catIdle.png'
+            this.catIdleWidth = 74
+            this.catIdleHeight = 62.5
+            this.catIdleStartIndex = 4
+            this.catIdleEndIndex = 5
+            this.catIdleFrameRate = 4
+            this.catIdleAngleCorrection = 90
+            this.catMoveImg = 'src/assets/spritesheets/default_catMove.png'
+            this.catMoveWidth = 74
+            this.catMoveHeight = 62.5
+            this.catMoveStartIndex = 0
+            this.catMoveEndIndex = 2
+            this.catMoveFrameRate = 8
+            this.catMoveAngleCorrection = 90
         }
 
-        if (
-            papiluCatConfig.catMove?.sprite !== undefined &&
-            papiluCatConfig.catMove?.spriteWidth !== undefined &&
-            papiluCatConfig.catMove?.spriteHeight !== undefined &&
-            papiluCatConfig.catMove?.spriteStartIndex !== undefined &&
-            papiluCatConfig.catMove?.spriteEndIndex !== undefined &&
-            papiluCatConfig.catMove?.spriteFrameRate !== undefined &&
-            papiluCatConfig.catMove?.spriteAngleCorrection !== undefined
-        ) {
-            this.catMoveSprite = papiluCatConfig.catMove.sprite
-            this.catMoveSpriteWidth = papiluCatConfig.catMove.spriteWidth
-            this.catMoveSpriteHeight = papiluCatConfig.catMove.spriteHeight
-            this.catMoveSpriteStartIndex = papiluCatConfig.catMove.spriteStartIndex
-            this.catMoveSpriteEndIndex = papiluCatConfig.catMove.spriteEndIndex
-            this.catMoveSpriteFrameRate = papiluCatConfig.catMove.spriteFrameRate
-            this.catMoveSpriteAngleCorrection = papiluCatConfig.catMove.spriteAngleCorrection
-        } else {
-            this.catMoveSprite = 'src/assets/spritesheets/default_catMove.png'
-            this.catMoveSpriteWidth = 74
-            this.catMoveSpriteHeight = 62.5
-            this.catMoveSpriteStartIndex = 0
-            this.catMoveSpriteEndIndex = 2
-            this.catMoveSpriteFrameRate = 8
-            this.catMoveSpriteAngleCorrection = 90
-        }
-
-        if (
-            papiluCatConfig.catFirstAction?.sprite !== undefined &&
-            papiluCatConfig.catFirstAction?.spriteWidth !== undefined &&
-            papiluCatConfig.catFirstAction?.spriteHeight !== undefined &&
-            papiluCatConfig.catFirstAction?.spriteStartIndex !== undefined &&
-            papiluCatConfig.catFirstAction?.spriteEndIndex !== undefined &&
-            papiluCatConfig.catFirstAction?.spriteFrameRate !== undefined &&
-            papiluCatConfig.catFirstAction?.spriteAngleCorrection !== undefined
-        ) {
-            this.catFirstActionSprite = papiluCatConfig.catFirstAction.sprite
-            this.catFirstActionSpriteWidth = papiluCatConfig.catFirstAction.spriteWidth
-            this.catFirstActionSpriteHeight = papiluCatConfig.catFirstAction.spriteHeight
-            this.catFirstActionSpriteStartIndex = papiluCatConfig.catFirstAction.spriteStartIndex
-            this.catFirstActionSpriteEndIndex = papiluCatConfig.catFirstAction.spriteEndIndex
-            this.catFirstActionSpriteFrameRate = papiluCatConfig.catFirstAction.spriteFrameRate
-            this.catFirstActionSpriteAngleCorrection = papiluCatConfig.catFirstAction.spriteAngleCorrection
-        } else {
-            this.catFirstActionSprite = 'src/assets/spritesheets/default_catFirstAction.png'
-            this.catFirstActionSpriteWidth = 126.67
-            this.catFirstActionSpriteHeight = 124.25
-            this.catFirstActionSpriteStartIndex = 0
-            this.catFirstActionSpriteEndIndex = 23
-            this.catFirstActionSpriteFrameRate = 8
-            this.catFirstActionSpriteAngleCorrection = 90
-        }
-
-        if (
-            papiluCatConfig.catSecondAction?.sprite !== undefined &&
-            papiluCatConfig.catSecondAction?.spriteWidth !== undefined &&
-            papiluCatConfig.catSecondAction?.spriteHeight !== undefined &&
-            papiluCatConfig.catSecondAction?.spriteStartIndex !== undefined &&
-            papiluCatConfig.catSecondAction?.spriteEndIndex !== undefined &&
-            papiluCatConfig.catSecondAction?.spriteFrameRate !== undefined &&
-            papiluCatConfig.catSecondAction?.spriteAngleCorrection !== undefined
-        ) {
-            this.catSecondActionSprite = papiluCatConfig.catSecondAction.sprite
-            this.catSecondActionSpriteWidth = papiluCatConfig.catSecondAction.spriteWidth
-            this.catSecondActionSpriteHeight = papiluCatConfig.catSecondAction.spriteHeight
-            this.catSecondActionSpriteStartIndex = papiluCatConfig.catSecondAction.spriteStartIndex
-            this.catSecondActionSpriteEndIndex = papiluCatConfig.catSecondAction.spriteEndIndex
-            this.catSecondActionSpriteFrameRate = papiluCatConfig.catSecondAction.spriteFrameRate
-            this.catSecondActionSpriteAngleCorrection = papiluCatConfig.catSecondAction.spriteAngleCorrection
-        } else {
-            this.catSecondActionSprite = 'src/assets/spritesheets/default_catSecondAction.png'
-            this.catSecondActionSpriteWidth = 650
-            this.catSecondActionSpriteHeight = 650
-            this.catSecondActionSpriteStartIndex = 0
-            this.catSecondActionSpriteEndIndex = 0
-            this.catSecondActionSpriteFrameRate = 8
-            this.catSecondActionSpriteAngleCorrection = 90
-        }
-
-        if (
-            papiluCatConfig.flyIdle?.sprite !== undefined &&
-            papiluCatConfig.flyIdle?.spriteWidth !== undefined &&
-            papiluCatConfig.flyIdle?.spriteHeight !== undefined &&
-            papiluCatConfig.flyIdle?.spriteStartIndex !== undefined &&
-            papiluCatConfig.flyIdle?.spriteEndIndex !== undefined &&
-            papiluCatConfig.flyIdle?.spriteFrameRate !== undefined &&
-            papiluCatConfig.flyIdle?.spriteAngleCorrection !== undefined
-        ) {
-            this.flyIdleSprite = papiluCatConfig.flyIdle.sprite
-            this.flyIdleSpriteWidth = papiluCatConfig.flyIdle.spriteWidth
-            this.flyIdleSpriteHeight = papiluCatConfig.flyIdle.spriteHeight
-            this.flyIdleSpriteStartIndex = papiluCatConfig.flyIdle.spriteStartIndex
-            this.flyIdleSpriteEndIndex = papiluCatConfig.flyIdle.spriteEndIndex
-            this.flyIdleSpriteFrameRate = papiluCatConfig.flyIdle.spriteFrameRate
-            this.flyIdleSpriteAngleCorrection = papiluCatConfig.flyIdle.spriteAngleCorrection
-        } else {
-            this.flyIdleSprite = 'src/assets/spritesheets/default_flyIdle.png'
-            this.flyIdleSpriteWidth = 75
-            this.flyIdleSpriteHeight = 75
-            this.flyIdleSpriteStartIndex = 0
-            this.flyIdleSpriteEndIndex = 0
-            this.flyIdleSpriteFrameRate = 1
-            this.flyIdleSpriteAngleCorrection = 90
-        }
-
-        if (
-            papiluCatConfig.flyMove?.sprite !== undefined &&
-            papiluCatConfig.flyMove?.spriteWidth !== undefined &&
-            papiluCatConfig.flyMove?.spriteHeight !== undefined &&
-            papiluCatConfig.flyMove?.spriteStartIndex !== undefined &&
-            papiluCatConfig.flyMove?.spriteEndIndex !== undefined &&
-            papiluCatConfig.flyMove?.spriteFrameRate !== undefined &&
-            papiluCatConfig.flyMove?.spriteAngleCorrection !== undefined
-        ) {
-            this.flyMoveSprite = papiluCatConfig.flyMove.sprite
-            this.flyMoveSpriteWidth = papiluCatConfig.flyMove.spriteWidth
-            this.flyMoveSpriteHeight = papiluCatConfig.flyMove.spriteHeight
-            this.flyMoveSpriteStartIndex = papiluCatConfig.flyMove.spriteStartIndex
-            this.flyMoveSpriteEndIndex = papiluCatConfig.flyMove.spriteEndIndex
-            this.flyMoveSpriteFrameRate = papiluCatConfig.flyMove.spriteFrameRate
-            this.flyMoveSpriteAngleCorrection = papiluCatConfig.flyMove.spriteAngleCorrection
-        } else {
-            this.flyMoveSprite = 'src/assets/spritesheets/default_flyIdle.png'
-            this.flyMoveSpriteWidth = 75
-            this.flyMoveSpriteHeight = 75
-            this.flyMoveSpriteStartIndex = 0
-            this.flyMoveSpriteEndIndex = 0
-            this.flyMoveSpriteFrameRate = 8
-            this.flyMoveSpriteAngleCorrection = 90
-        }
+        if (papiluCatConfig.catActions) {
+            this.catActions = papiluCatConfig.catActions
+        } 
     }
 
     preload() {
         // 1st.
-        this.load.spritesheet(SPRITES.LOADING, this.loadingSprite, {
-            frameWidth: this.loadingSpriteWidth,
-            frameHeight: this.loadingSpriteHeight
+        this.load.spritesheet(SPRITES.LOADING, this.loadingImg, {
+            frameWidth: this.loadingWidth,
+            frameHeight: this.loadingHeight
         })
     }
 
     create() {
         this.anims.create({
             key: ANIMS.LOADING,
-            frames: this.anims.generateFrameNumbers(SPRITES.LOADING, { start: this.loadingSpriteStartIndex, end: this.loadingSpriteEndIndex }),
-            frameRate: this.loadingSpriteFrameRate,
+            frames: this.anims.generateFrameNumbers(SPRITES.LOADING, { start: this.loadingStartIndex, end: this.loadingEndIndex }),
+            frameRate: this.loadingFrameRate,
             repeat: -1
         })
 
@@ -265,86 +131,55 @@ export default class LoadingScene extends Phaser.Scene {
         loadingSprite.play(ANIMS.LOADING)
 
         // 2nd.
-        this.load.spritesheet(SPRITES.CAT_IDLE, this.catIdleSprite, {
-            frameWidth: this.catIdleSpriteWidth,
-            frameHeight: this.catIdleSpriteHeight
+        this.load.spritesheet(SPRITES.CAT_IDLE, this.catIdleImg, {
+            frameWidth: this.catIdleWidth,
+            frameHeight: this.catIdleHeight
         })
 
-        this.load.spritesheet(SPRITES.CAT_MOVE, this.catMoveSprite, {
-            frameWidth: this.catMoveSpriteWidth,
-            frameHeight: this.catMoveSpriteHeight
+        this.load.spritesheet(SPRITES.CAT_MOVE, this.catMoveImg, {
+            frameWidth: this.catMoveWidth,
+            frameHeight: this.catMoveHeight
         })
 
-        this.load.spritesheet(SPRITES.CAT_FIRST_ACTION, this.catFirstActionSprite, {
-            frameWidth: this.catFirstActionSpriteWidth,
-            frameHeight: this.catFirstActionSpriteHeight
-        })
-
-        this.load.spritesheet(SPRITES.CAT_SECOND_ACTION, this.catSecondActionSprite, {
-            frameWidth: this.catSecondActionSpriteWidth,
-            frameHeight: this.catSecondActionSpriteHeight
-        })
-
-        this.load.spritesheet(SPRITES.FLY_IDLE, this.flyIdleSprite, {
-            frameWidth: this.flyIdleSpriteWidth,
-            frameHeight: this.flyIdleSpriteHeight
-        })
-
-        this.load.spritesheet(SPRITES.FLY_MOVE, this.flyMoveSprite, {
-            frameWidth: this.flyMoveSpriteWidth,
-            frameHeight: this.flyMoveSpriteHeight
-        })
+        for (let i = 0; i < this.catActions.length; i++) {
+            this.load.spritesheet(`${SPRITES.CAT_ACTION}_${i}`, this.catActions[i].img, {
+                frameWidth: this.catActions[i].width,
+                frameHeight: this.catActions[i].height
+            })
+        }    
 
         this.load.on('complete', () => {
             this.anims.create({
                 key: ANIMS.CAT_IDLE,
-                frames: this.anims.generateFrameNumbers(SPRITES.CAT_IDLE, { start: this.catIdleSpriteStartIndex, end: this.catIdleSpriteEndIndex }),
-                frameRate: this.catIdleSpriteFrameRate,
+                frames: this.anims.generateFrameNumbers(SPRITES.CAT_IDLE, { start: this.catIdleStartIndex, end: this.catIdleEndIndex }),
+                frameRate: this.catIdleFrameRate,
                 repeat: -1
             })
 
             this.anims.create({
                 key: ANIMS.CAT_MOVE,
-                frames: this.anims.generateFrameNumbers(SPRITES.CAT_MOVE, { start: this.catMoveSpriteStartIndex, end: this.catMoveSpriteEndIndex }),
-                frameRate: this.catMoveSpriteFrameRate,
+                frames: this.anims.generateFrameNumbers(SPRITES.CAT_MOVE, { start: this.catMoveStartIndex, end: this.catMoveEndIndex }),
+                frameRate: this.catMoveFrameRate,
                 repeat: -1
             })
 
-            this.anims.create({
-                key: ANIMS.CAT_FIRST_ACTION,
-                frames: this.anims.generateFrameNumbers(SPRITES.CAT_FIRST_ACTION, { start: this.catFirstActionSpriteStartIndex, end: this.catFirstActionSpriteEndIndex }),
-                frameRate: this.catFirstActionSpriteFrameRate,
-                repeat: -1
-            })
+            for (let i = 0; i < this.catActions.length; i++) {
+                this.anims.create({
+                    key: `${ANIMS.CAT_ACTION}_${i}`,
+                    frames: this.anims.generateFrameNumbers(`${SPRITES.CAT_ACTION}_${i}`, { start: this.catActions[i].startIndex, end: this.catActions[i].endIndex }),
+                    frameRate: this.catActions[i].frameRate,
+                    repeat: -1
+                })
+            }    
 
-            this.anims.create({
-                key: ANIMS.CAT_SECOND_ACTION,
-                frames: this.anims.generateFrameNumbers(SPRITES.CAT_SECOND_ACTION, { start: this.catSecondActionSpriteStartIndex, end: this.catSecondActionSpriteEndIndex }),
-                frameRate: this.catSecondActionSpriteFrameRate,
-                repeat: -1
-            })
-
-            this.anims.create({
-                key: ANIMS.FLY_IDLE,
-                frames: this.anims.generateFrameNumbers(SPRITES.FLY_IDLE, { start: this.flyIdleSpriteStartIndex, end: this.flyIdleSpriteEndIndex }),
-                frameRate: this.flyIdleSpriteFrameRate,
-                repeat: -1
-            })
-
-            this.anims.create({
-                key: ANIMS.FLY_MOVE,
-                frames: this.anims.generateFrameNumbers(SPRITES.FLY_MOVE, { start: this.flyMoveSpriteStartIndex, end: this.flyMoveSpriteEndIndex }),
-                frameRate: this.flyMoveSpriteFrameRate,
-                repeat: -1
-            })
-
+            const catActionsAngleCorrectionArr = new Array(this.catActions.length)
+            for (let i = 0; i < this.catActions.length; i++) { 
+                catActionsAngleCorrectionArr[i] = this.catActions[i].angleCorrection 
+            }
             const playingSceneConfig: PlayingSceneConfig = {
-                catIdleSpriteAngleCorrection: this.catIdleSpriteAngleCorrection,
-                catMoveSpriteAngleCorrection: this.catMoveSpriteAngleCorrection,
-                catFirstActionSpriteAngleCorrection: this.catFirstActionSpriteAngleCorrection,
-                catSecondActionSpriteAngleCorrection: this.catSecondActionSpriteAngleCorrection,
-                flyIdleSpriteAngleCorrection: this.flyIdleSpriteAngleCorrection,
-                flyMoveSpriteAngleCorrection: this.flyMoveSpriteAngleCorrection,
+                catIdleAngleCorrection: this.catIdleAngleCorrection,
+                catMoveAngleCorrection: this.catMoveAngleCorrection,
+                catActionsAngleCorrection: catActionsAngleCorrectionArr
             }
             this.scene.start('PlayingScene', playingSceneConfig)
 
