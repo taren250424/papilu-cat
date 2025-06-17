@@ -1,5 +1,6 @@
 export default interface PlayingSceneConfig {
-    catIdleAngleCorrection: number,
+    start_x: number,
+    start_y: number,
     catMoveAngleCorrection: number,
-    catActionsAngleCorrection: number[]
+    catActionCount: number
 }

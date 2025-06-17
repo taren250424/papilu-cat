@@ -3,7 +3,6 @@ import { SPRITES, ANIMS } from '../constants/animationKey'
 import PapiluCatConfig from '../PapiluCatConfig'
 import SpriteConfig from '../SpriteConfig'
 import PlayingSceneConfig from './PlayingSceneConfig'
-import config from '../config'
 
 export default class LoadingScene extends Phaser.Scene {
     private loadingImg!: string
@@ -19,7 +18,6 @@ export default class LoadingScene extends Phaser.Scene {
     private catIdleStartIndex!: number
     private catIdleEndIndex!: number
     private catIdleFrameRate!: number
-    private catIdleAngleCorrection!: number
 
     private catMoveImg!: string
     private catMoveWidth!: number
@@ -42,7 +40,7 @@ export default class LoadingScene extends Phaser.Scene {
             papiluCatConfig.loading?.height !== undefined &&
             papiluCatConfig.loading?.startIndex !== undefined &&
             papiluCatConfig.loading?.endIndex !== undefined &&
-            papiluCatConfig.loading?.frameRate !== undefined 
+            papiluCatConfig.loading?.frameRate !== undefined
         ) {
             this.loadingImg = papiluCatConfig.loading?.img
             this.loadingWidth = papiluCatConfig.loading?.width
@@ -66,7 +64,6 @@ export default class LoadingScene extends Phaser.Scene {
             papiluCatConfig.catIdle?.startIndex !== undefined &&
             papiluCatConfig.catIdle?.endIndex !== undefined &&
             papiluCatConfig.catIdle?.frameRate !== undefined &&
-            papiluCatConfig.catIdle?.angleCorrection !== undefined &&
             papiluCatConfig.catMove?.img !== undefined &&
             papiluCatConfig.catMove?.width !== undefined &&
             papiluCatConfig.catMove?.height !== undefined &&
@@ -81,7 +78,6 @@ export default class LoadingScene extends Phaser.Scene {
             this.catIdleStartIndex = papiluCatConfig.catIdle.startIndex
             this.catIdleEndIndex = papiluCatConfig.catIdle.endIndex
             this.catIdleFrameRate = papiluCatConfig.catIdle.frameRate
-            this.catIdleAngleCorrection = papiluCatConfig.catIdle.angleCorrection
             this.catMoveImg = papiluCatConfig.catMove.img
             this.catMoveWidth = papiluCatConfig.catMove.width
             this.catMoveHeight = papiluCatConfig.catMove.height
@@ -96,7 +92,6 @@ export default class LoadingScene extends Phaser.Scene {
             this.catIdleStartIndex = 4
             this.catIdleEndIndex = 5
             this.catIdleFrameRate = 4
-            this.catIdleAngleCorrection = 90
             this.catMoveImg = 'src/assets/spritesheets/default_catMove.png'
             this.catMoveWidth = 74
             this.catMoveHeight = 62.5
@@ -108,7 +103,7 @@ export default class LoadingScene extends Phaser.Scene {
 
         if (papiluCatConfig.catActions) {
             this.catActions = papiluCatConfig.catActions
-        } 
+        }
     }
 
     preload() {
@@ -127,7 +122,10 @@ export default class LoadingScene extends Phaser.Scene {
             repeat: -1
         })
 
-        const loadingSprite = this.add.sprite(config.width / 2, config.height / 2, SPRITES.LOADING)
+        const start_x = Phaser.Math.Between(0, window.innerWidth)
+        const start_y = Phaser.Math.Between(0, window.innerHeight)
+
+        const loadingSprite = this.add.sprite(start_x, start_y / 2, SPRITES.LOADING)
         loadingSprite.play(ANIMS.LOADING)
 
         // 2nd.
@@ -141,12 +139,14 @@ export default class LoadingScene extends Phaser.Scene {
             frameHeight: this.catMoveHeight
         })
 
-        for (let i = 0; i < this.catActions.length; i++) {
-            this.load.spritesheet(`${SPRITES.CAT_ACTION}_${i}`, this.catActions[i].img, {
-                frameWidth: this.catActions[i].width,
-                frameHeight: this.catActions[i].height
-            })
-        }    
+        if (this.catActions && this.catActions.length > 0) {
+            for (let i = 0; i < this.catActions.length; i++) {
+                this.load.spritesheet(`${SPRITES.CAT_ACTION}_${i}`, this.catActions[i].img, {
+                    frameWidth: this.catActions[i].width,
+                    frameHeight: this.catActions[i].height
+                })
+            }
+        }
 
         this.load.on('complete', () => {
             this.anims.create({
@@ -163,23 +163,22 @@ export default class LoadingScene extends Phaser.Scene {
                 repeat: -1
             })
 
-            for (let i = 0; i < this.catActions.length; i++) {
-                this.anims.create({
-                    key: `${ANIMS.CAT_ACTION}_${i}`,
-                    frames: this.anims.generateFrameNumbers(`${SPRITES.CAT_ACTION}_${i}`, { start: this.catActions[i].startIndex, end: this.catActions[i].endIndex }),
-                    frameRate: this.catActions[i].frameRate,
-                    repeat: -1
-                })
-            }    
-
-            const catActionsAngleCorrectionArr = new Array(this.catActions.length)
-            for (let i = 0; i < this.catActions.length; i++) { 
-                catActionsAngleCorrectionArr[i] = this.catActions[i].angleCorrection 
+            if (this.catActions && this.catActions.length > 0) {
+                for (let i = 0; i < this.catActions.length; i++) {
+                    this.anims.create({
+                        key: `${ANIMS.CAT_ACTION}_${i}`,
+                        frames: this.anims.generateFrameNumbers(`${SPRITES.CAT_ACTION}_${i}`, { start: this.catActions[i].startIndex, end: this.catActions[i].endIndex }),
+                        frameRate: this.catActions[i].frameRate,
+                        repeat: -1
+                    })
+                }
             }
+
             const playingSceneConfig: PlayingSceneConfig = {
-                catIdleAngleCorrection: this.catIdleAngleCorrection,
+                start_x: start_x,
+                start_y: start_y,
                 catMoveAngleCorrection: this.catMoveAngleCorrection,
-                catActionsAngleCorrection: catActionsAngleCorrectionArr
+                catActionCount: this.catActions?.length ?? 0
             }
             this.scene.start('PlayingScene', playingSceneConfig)
 

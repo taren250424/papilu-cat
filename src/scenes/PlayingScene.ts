@@ -3,23 +3,25 @@ import Cat from '../actors/Cat'
 import PlayingSceneConfig from './PlayingSceneConfig'
 
 export default class PlayingScene extends Phaser.Scene {
+    private start_x!: number
+    private start_y!: number
     private cat!: Cat
-    private catIdleAngleCorrection!: number
     private catMoveAngleCorrection!: number
-    private catActionsAngleCorrection!: number[]
+    private catActionCount!: number
 
     constructor() {
         super('PlayingScene')
     }
 
     init(playingSceneConfig: PlayingSceneConfig) {
-        this.catIdleAngleCorrection = playingSceneConfig.catIdleAngleCorrection
+        this.start_x = playingSceneConfig.start_x
+        this.start_y = playingSceneConfig.start_y
         this.catMoveAngleCorrection = playingSceneConfig.catMoveAngleCorrection
-        this.catActionsAngleCorrection = playingSceneConfig.catActionsAngleCorrection
+        this.catActionCount = playingSceneConfig.catActionCount
     }
 
     create() {
-        this.cat = new Cat(this, this.catIdleAngleCorrection, this.catMoveAngleCorrection, this.catActionsAngleCorrection)
+        this.cat = new Cat(this, this.catMoveAngleCorrection, this.catActionCount, this.start_x, this.start_y)
     }
 
     update() {

@@ -5,5 +5,4 @@ export default interface SpriteConfig {
     startIndex: number
     endIndex: number
     frameRate: number
-    angleCorrection: number
 }
