@@ -1,8 +1,12 @@
 import Phaser from 'phaser'
 import { SPRITES, ANIMS } from '../constants/animationKey'
 import PapiluCatConfig from '../PapiluCatConfig'
-import SpriteConfig from '../SpriteConfig'
+import { SpriteConfig } from '../SpriteConfig'
 import PlayingSceneConfig from './PlayingSceneConfig'
+
+import defaultLoadingImg from '../assets/spritesheets/default_loading.png?base64'
+import defaultCatIdleImg from '../assets/spritesheets/default_catIdle.png?base64'
+import defaultCatMoveImg from '../assets/spritesheets/default_catMove.png?base64'
 
 export default class LoadingScene extends Phaser.Scene {
     private loadingImg!: string
@@ -27,13 +31,15 @@ export default class LoadingScene extends Phaser.Scene {
     private catMoveFrameRate!: number
     private catMoveAngleCorrection!: number
 
-    private catActions!: SpriteConfig[]
+    private catActions!: Partial<SpriteConfig>[]
 
     constructor() {
         super('LoadingScene')
     }
 
     init(papiluCatConfig: PapiluCatConfig) {
+        if (!papiluCatConfig) papiluCatConfig = {}
+
         if (
             papiluCatConfig.loading?.img !== undefined &&
             papiluCatConfig.loading?.width !== undefined &&
@@ -49,11 +55,11 @@ export default class LoadingScene extends Phaser.Scene {
             this.loadingEndIndex = papiluCatConfig.loading?.endIndex
             this.loadingFrameRate = papiluCatConfig.loading?.frameRate
         } else {
-            this.loadingImg = 'src/assets/spritesheets/default_loading.png'
-            this.loadingWidth = 80.375
-            this.loadingHeight = 360
+            this.loadingImg = defaultLoadingImg
+            this.loadingWidth = 128
+            this.loadingHeight = 128
             this.loadingStartIndex = 0
-            this.loadingEndIndex = 7
+            this.loadingEndIndex = 15
             this.loadingFrameRate = 10
         }
 
@@ -86,15 +92,15 @@ export default class LoadingScene extends Phaser.Scene {
             this.catMoveFrameRate = papiluCatConfig.catMove.frameRate
             this.catMoveAngleCorrection = papiluCatConfig.catMove.angleCorrection
         } else {
-            this.catIdleImg = 'src/assets/spritesheets/default_catIdle.png'
-            this.catIdleWidth = 74
-            this.catIdleHeight = 62.5
+            this.catIdleImg = defaultCatIdleImg
+            this.catIdleWidth = 32
+            this.catIdleHeight = 48
             this.catIdleStartIndex = 4
             this.catIdleEndIndex = 5
             this.catIdleFrameRate = 4
-            this.catMoveImg = 'src/assets/spritesheets/default_catMove.png'
-            this.catMoveWidth = 74
-            this.catMoveHeight = 62.5
+            this.catMoveImg = defaultCatMoveImg
+            this.catMoveWidth = 32
+            this.catMoveHeight = 48
             this.catMoveStartIndex = 0
             this.catMoveEndIndex = 2
             this.catMoveFrameRate = 8
@@ -125,7 +131,7 @@ export default class LoadingScene extends Phaser.Scene {
         const start_x = Phaser.Math.Between(0, window.innerWidth)
         const start_y = Phaser.Math.Between(0, window.innerHeight)
 
-        const loadingSprite = this.add.sprite(start_x, start_y / 2, SPRITES.LOADING)
+        const loadingSprite = this.add.sprite(start_x, start_y, SPRITES.LOADING)
         loadingSprite.play(ANIMS.LOADING)
 
         // 2nd.
@@ -141,10 +147,22 @@ export default class LoadingScene extends Phaser.Scene {
 
         if (this.catActions && this.catActions.length > 0) {
             for (let i = 0; i < this.catActions.length; i++) {
-                this.load.spritesheet(`${SPRITES.CAT_ACTION}_${i}`, this.catActions[i].img, {
-                    frameWidth: this.catActions[i].width,
-                    frameHeight: this.catActions[i].height
-                })
+                if (
+                    this.catActions[i].startIndex !== undefined && this.catActions[i].startIndex !== null &&
+                    this.catActions[i].endIndex !== undefined && this.catActions[i].endIndex !== null &&
+                    this.catActions[i].width !== undefined && this.catActions[i].width !== null &&
+                    this.catActions[i].height !== undefined && this.catActions[i].height !== null &&
+                    this.catActions[i].frameRate !== undefined && this.catActions[i].frameRate !== null &&
+                    this.catActions[i].img
+                ) {
+                    this.load.spritesheet(`${SPRITES.CAT_ACTION}_${i}`, this.catActions[i].img, {
+                        frameWidth: this.catActions[i].width!,
+                        frameHeight: this.catActions[i].height!
+                    })
+                } else {
+                    this.catActions.splice(i, 1)
+                    i--
+                }
             }
         }
 

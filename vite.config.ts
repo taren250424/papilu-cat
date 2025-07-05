@@ -1,20 +1,15 @@
 import { defineConfig } from 'vite'
-import dts from 'vite-plugin-dts'
 
 export default defineConfig({
     build: {
         lib: {
             entry: 'src/main.ts',
-            name: 'PapiluCat',      // Create global window.PapiluCat
-            fileName: 'papilu-cat', // Final file name dist/papilu-cat.umd.js
+            name: 'PapiluCat',
+            fileName: (format) => {
+                if (format === 'umd') return 'papilu-cat.umd.js'
+                return `papilu-cat.${format}.js`
+            },
+            formats: ['es', 'umd'],
         },
-        // rollupOptions: {
-        //     output: {
-        //         globals: {
-        //             phaser: 'Phaser'
-        //         }
-        //     }
-        // }
     },
-    // plugins: [dts()]
 })

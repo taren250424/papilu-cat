@@ -27,7 +27,6 @@ export default class SectionHelper {
     }
 
     private resetSection() {
-        console.log('resize')
         const width = window.innerWidth / 4
         const height = window.innerHeight / 4
         for (let i = 0; i < 4; i++) {

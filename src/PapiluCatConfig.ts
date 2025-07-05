@@ -1,18 +1,8 @@
-import SpriteConfig from "./SpriteConfig"
+import { SpriteConfig, CatMoveConfig } from "./SpriteConfig"
 
 export default interface PapiluCatConfig {
     loading?: Partial<SpriteConfig>
     catIdle?: Partial<SpriteConfig>
-
-    catMove?: Partial<{
-        img: string
-        width: number
-        height: number
-        startIndex: number
-        endIndex: number
-        frameRate: number
-        angleCorrection: number
-    }>
-
-    catActions?: SpriteConfig[]
+    catMove?: Partial<CatMoveConfig>
+    catActions?: Partial<SpriteConfig>[]
 }

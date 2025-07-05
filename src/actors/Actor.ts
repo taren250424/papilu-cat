@@ -8,8 +8,8 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
     protected div: HTMLElement
     protected moveAngleCorrection: number
 
-    protected minDelay: number = 1000
-    protected maxDelay: number = 3000
+    protected minDelay: number = 10000
+    protected maxDelay: number = 30000
 
     protected status: string = STATUS.IDLE
     protected tween: Phaser.Tweens.Tween | null = null

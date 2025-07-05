@@ -55,56 +55,7 @@
         const c = document.getElementById('c')
         const d = document.getElementById('d')
 
-        c.addEventListener('click', () => {
-            create({
-                loading: {
-                    img: 'spritesheets/loading.png',
-                    width: 158,
-                    height: 316,
-                    startIndex: 0,
-                    endIndex: 4,
-                    frameRate: 8,
-                },
-
-                catIdle: {
-                    img: 'spritesheets/catIdle.png',
-                    width: 70.3,
-                    height: 62.5,
-                    startIndex: 4,
-                    endIndex: 5,
-                    frameRate: 1,
-                },
-
-                catMove: {
-                    img: 'spritesheets/catMove.png',
-                    width: 70.3,
-                    height: 62.5,
-                    startIndex: 0,
-                    endIndex: 2,
-                    frameRate: 8,
-                    angleCorrection: 90,
-                },
-
-                catActions: [
-                    {
-                        img: 'spritesheets/catFirstAction.png',
-                        width: 125,
-                        height: 125,
-                        startIndex: 0,
-                        endIndex: 3,
-                        frameRate: 8,
-                    },
-                    {
-                        img: 'spritesheets/catSecondAction.png',
-                        width: 16,
-                        height: 16,
-                        startIndex: 0,
-                        endIndex: 4,
-                        frameRate: 8,
-                    },
-                ]
-            })
-        })
+        c.addEventListener('click', () => { create() })
         d.addEventListener('click', () => { destroy() })
     </script>
 </body>
