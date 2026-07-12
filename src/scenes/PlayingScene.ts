@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import Cat from '../actors/Cat'
 import Butterfly from '../actors/Butterfly'
 import PlayingSceneConfig from './PlayingSceneConfig'
+import { STATUS } from '../constants/status'
 
 export default class PlayingScene extends Phaser.Scene {
     private start_x!: number
@@ -33,7 +34,20 @@ export default class PlayingScene extends Phaser.Scene {
             const start_x = Phaser.Math.Between(40, window.innerWidth - 40)
             const start_y = Phaser.Math.Between(40, window.innerHeight - 40)
             this.butterfly = new Butterfly(this, this.flyMoveAngleCorrection, start_x, start_y)
+
+            this.scheduleNextChase()
         }
+    }
+
+    // Every once in a while the cat notices the butterfly and goes after it.
+    private scheduleNextChase() {
+        const delay = Phaser.Math.Between(15000, 40000)
+        this.time.delayedCall(delay, () => {
+            if (this.butterfly?.active && this.cat.getStatus() === STATUS.IDLE) {
+                this.cat.startChase(this.butterfly)
+            }
+            this.scheduleNextChase()
+        })
     }
 
     update() {
@@ -42,5 +56,11 @@ export default class PlayingScene extends Phaser.Scene {
 
         this.cat.update(cam, canvasRect)
         this.butterfly?.update(cam, canvasRect)
+
+        // The butterfly keeps its distance from the cat.
+        if (this.butterfly?.active) {
+            const distance = Phaser.Math.Distance.Between(this.cat.x, this.cat.y, this.butterfly.x, this.butterfly.y)
+            if (distance < 90) this.butterfly.evadeFrom(this.cat.x, this.cat.y)
+        }
     }
 }

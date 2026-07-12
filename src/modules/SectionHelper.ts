@@ -45,7 +45,7 @@ export default class SectionHelper {
         }
     }
 
-    getRandomPositionAroundTarget(x: number, y: number): Section {
+    getRandomPositionAroundTarget(x: number, y: number, away_x?: number, away_y?: number): Section {
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 4; j++) {
                 if (
@@ -59,8 +59,20 @@ export default class SectionHelper {
                         if (ni >= 0 && ni < 4 && nj >= 0 && nj < 4) { arr.push({ row: ni, col: nj }) }
                     }
 
-                    const idx = Math.floor(Math.random() * arr.length)
-                    const { row, col } = arr[idx]
+                    // When fleeing from a threat, prefer sections farther away from it.
+                    let candidates = arr
+                    if (away_x !== undefined && away_y !== undefined) {
+                        const farther = arr.filter(({ row, col }) => {
+                            const s = this.section[row][col]
+                            const cx = (s.start.x + s.end.x) / 2
+                            const cy = (s.start.y + s.end.y) / 2
+                            return Math.hypot(cx - away_x, cy - away_y) > Math.hypot(x - away_x, y - away_y)
+                        })
+                        if (farther.length > 0) candidates = farther
+                    }
+
+                    const idx = Math.floor(Math.random() * candidates.length)
+                    const { row, col } = candidates[idx]
 
                     return this.section[row][col]
                 }

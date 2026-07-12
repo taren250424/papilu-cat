@@ -67,14 +67,22 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
         super.destroy()
     }
 
+    getStatus(): string {
+        return this.status
+    }
+
+    startleFrom(threat_x: number, threat_y: number) {
+        this.emergencyStop()
+        const sectionHelper = SectionHelper.getInstance()
+        const d: Section = sectionHelper.getRandomPositionAroundTarget(this.x, this.y, threat_x, threat_y)
+        this.moveToRandomPosition(d.start.x, d.start.y, d.end.x, d.end.y)
+    }
+
     protected onPointerDownOrOver() {
         if (this.isMouseOverThrottled) return
         this.isMouseOverThrottled = true
 
-        this.emergencyStop()
-        const sectionHelper = SectionHelper.getInstance()
-        const d: Section = sectionHelper.getRandomPositionAroundTarget(this.x, this.y)
-        this.moveToRandomPosition(d.start.x, d.start.y, d.end.x, d.end.y)
+        this.startleFrom(this.x, this.y)
 
         setTimeout(() => { this.isMouseOverThrottled = false}, 200)
     }
@@ -155,6 +163,8 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
     protected emergencyStop() {
         this.tween?.stop()
         this.moveTimer?.remove()
+        const body = this.body as Phaser.Physics.Arcade.Body | null
+        body?.stop()
     }
 
     private createAndAppendDiv(): HTMLElement {

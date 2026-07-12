@@ -33,6 +33,23 @@ export default class Butterfly extends Actor {
         super.moveToRandomPosition(start_x, start_y, end_x, end_y)
     }
 
+    private lastEvadeAt: number = -Infinity
+
+    private static readonly EVADE_COOLDOWN = 1200
+    private static readonly EVADE_SPEED = 0.12
+
+    // Dart away from the cat, faster than regular wandering.
+    evadeFrom(threat_x: number, threat_y: number) {
+        const now = this.scene.time.now
+        if (now - this.lastEvadeAt < Butterfly.EVADE_COOLDOWN) return
+        this.lastEvadeAt = now
+
+        const wanderSpeed = this.speedPxPerMs
+        this.speedPxPerMs = Butterfly.EVADE_SPEED
+        this.startleFrom(threat_x, threat_y)
+        this.speedPxPerMs = wanderSpeed
+    }
+
     // Butterflies have no standalone actions: flutter to a nearby spot instead.
     protected performRandomAction() {
         const sectionHelper = SectionHelper.getInstance()
