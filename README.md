@@ -15,7 +15,7 @@ A minimalist interactive web toy where a cat and a butterfly quietly play across
 Just include the script tag. That’s all.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/hn250424/papilu-cat/dist/papilu-cat.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/taren250424/papilu-cat/dist/papilu-cat.umd.js"></script>
 ```
 
 ## Usage
@@ -116,7 +116,7 @@ If any property is missing from either flyIdle or flyMove, both will fall back t
 
 ## TypeScript Support
 
-If you're using TypeScript, type definitions are provided in the [papilu-cat.d.ts](https://github.com/hn250424/papilu-cat/blob/main/papilu-cat.d.ts) file.
+If you're using TypeScript, type definitions are provided in the [papilu-cat.d.ts](https://github.com/taren250424/papilu-cat/blob/main/papilu-cat.d.ts) file.
 
 You can import the types and API like this:
 
