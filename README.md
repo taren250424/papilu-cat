@@ -1,11 +1,12 @@
 ## Papilu-cat
 
-A minimalist interactive web toy where a cat quietly roams the screen and gracefully dodges your mouse.  
+A minimalist interactive web toy where a cat and a butterfly quietly play across the screen — and both gracefully dodge your mouse.
 
 ## Features
 
-- A cat that gently wanders the screen
-- Smart evasive behavior on mouse hover
+- A cat that gently wanders the screen, naps, and plays with its tail
+- A butterfly that flutters around; the cat occasionally chases it, and in quiet moments it perches on the cat
+- Smart evasive behavior on mouse hover — your clicks are never blocked
 - No UI, no clicks — just quiet presence
 - Lightweight, no dependencies
 
@@ -78,8 +79,40 @@ If any property is missing from either catIdle or catMove, both will fall back t
 Since catMove rotates based on the movement direction, a top-down view image is recommended for best results.
 The default facing angle is 0 degrees, which points to the right—so if your sprite faces upward (as in a top-down view), set angleCorrection to 90.
 
-Actions are independent of the default settings and have no initial configuration—you can add as many entries as you want to the catActions array.
+If catActions is omitted, two default actions are used (napping and tail play)—you can add as many entries as you want to the catActions array.
 However, if any required property is missing from an action, that action will not be applied.
+
+## Customizing the Butterfly
+
+The butterfly is enabled by default. You can restyle it with flyIdle / flyMove (same rules as catIdle / catMove), or turn it off entirely:
+
+```js
+PapiluCat.create({
+    flyIdle: {
+        img: 'spritesheets/flyIdle.png',
+        width: 24,
+        height: 24,
+        startIndex: 0,
+        endIndex: 1,
+        frameRate: 3,
+    },
+    flyMove: {
+        img: 'spritesheets/flyMove.png',
+        width: 24,
+        height: 24,
+        startIndex: 0,
+        endIndex: 3,
+        frameRate: 12,
+        angleCorrection: 90,
+    },
+})
+```
+
+```js
+PapiluCat.create({ butterfly: false }) // cat only
+```
+
+If any property is missing from either flyIdle or flyMove, both will fall back to their default settings.
 
 ## TypeScript Support
 
