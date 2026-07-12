@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import { ANIMS, SPRITES } from '../constants/animationKey'
+import { STATUS } from '../constants/status'
 import Actor from './Actor'
 import SectionHelper from '../modules/SectionHelper'
 import { Section } from '../type/Section'
@@ -34,12 +35,65 @@ export default class Butterfly extends Actor {
     }
 
     private lastEvadeAt: number = -Infinity
+    private perching: boolean = false
 
     private static readonly EVADE_COOLDOWN = 1200
     private static readonly EVADE_SPEED = 0.12
+    private static readonly PERCH_OFFSET_X = 10
+    private static readonly PERCH_OFFSET_Y = -20
+
+    isPerching(): boolean {
+        return this.perching
+    }
+
+    // Fly over and settle on the idle cat.
+    perchOn(target: Actor) {
+        if (this.perching) return
+
+        this.emergencyStop()
+        this.perching = true
+        this.status = STATUS.MOVE
+
+        const targetX = target.x + Butterfly.PERCH_OFFSET_X
+        const targetY = target.y + Butterfly.PERCH_OFFSET_Y
+
+        this.setTexture(`${SPRITES.FLY_MOVE}`)
+        this.play(`${ANIMS.FLY_MOVE}`)
+
+        const distance = Phaser.Math.Distance.Between(this.x, this.y, targetX, targetY)
+        const angle = Phaser.Math.Angle.Between(this.x, this.y, targetX, targetY)
+        this.rotation = angle + Phaser.Math.DegToRad(this.moveAngleCorrection)
+
+        this.tween = this.scene.tweens.add({
+            targets: this,
+            x: targetX,
+            y: targetY,
+            duration: distance / this.speedPxPerMs,
+            ease: 'Sine.easeOut',
+            onComplete: () => {
+                this.status = STATUS.PERCH
+                this.rotation = 0
+                this.setTexture(`${SPRITES.FLY_IDLE}`)
+                this.play(`${ANIMS.FLY_IDLE}`)
+            }
+        })
+    }
+
+    // The cat woke up or started moving: take off again.
+    flutterOff() {
+        if (!this.perching) return
+        this.startleFrom(this.x, this.y)
+    }
+
+    protected emergencyStop() {
+        this.perching = false
+        super.emergencyStop()
+    }
 
     // Dart away from the cat, faster than regular wandering.
     evadeFrom(threat_x: number, threat_y: number) {
+        if (this.perching) return
+
         const now = this.scene.time.now
         if (now - this.lastEvadeAt < Butterfly.EVADE_COOLDOWN) return
         this.lastEvadeAt = now

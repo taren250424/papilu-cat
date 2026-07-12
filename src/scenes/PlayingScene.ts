@@ -36,6 +36,7 @@ export default class PlayingScene extends Phaser.Scene {
             this.butterfly = new Butterfly(this, this.flyMoveAngleCorrection, start_x, start_y)
 
             this.scheduleNextChase()
+            this.scheduleNextPerch()
         }
     }
 
@@ -43,10 +44,25 @@ export default class PlayingScene extends Phaser.Scene {
     private scheduleNextChase() {
         const delay = Phaser.Math.Between(15000, 40000)
         this.time.delayedCall(delay, () => {
-            if (this.butterfly?.active && this.cat.getStatus() === STATUS.IDLE) {
+            if (this.butterfly?.active && !this.butterfly.isPerching() && this.cat.getStatus() === STATUS.IDLE) {
                 this.cat.startChase(this.butterfly)
             }
             this.scheduleNextChase()
+        })
+    }
+
+    // In quiet moments the butterfly settles on the cat.
+    private scheduleNextPerch() {
+        const delay = Phaser.Math.Between(25000, 50000)
+        this.time.delayedCall(delay, () => {
+            if (
+                this.butterfly?.active &&
+                this.butterfly.getStatus() === STATUS.IDLE &&
+                this.cat.getStatus() === STATUS.IDLE
+            ) {
+                this.butterfly.perchOn(this.cat)
+            }
+            this.scheduleNextPerch()
         })
     }
 
@@ -57,10 +73,14 @@ export default class PlayingScene extends Phaser.Scene {
         this.cat.update(cam, canvasRect)
         this.butterfly?.update(cam, canvasRect)
 
-        // The butterfly keeps its distance from the cat.
+        // The butterfly keeps its distance from the cat, unless it is perching.
         if (this.butterfly?.active) {
-            const distance = Phaser.Math.Distance.Between(this.cat.x, this.cat.y, this.butterfly.x, this.butterfly.y)
-            if (distance < 90) this.butterfly.evadeFrom(this.cat.x, this.cat.y)
+            if (this.butterfly.isPerching()) {
+                if (this.cat.getStatus() !== STATUS.IDLE) this.butterfly.flutterOff()
+            } else {
+                const distance = Phaser.Math.Distance.Between(this.cat.x, this.cat.y, this.butterfly.x, this.butterfly.y)
+                if (distance < 90) this.butterfly.evadeFrom(this.cat.x, this.cat.y)
+            }
         }
     }
 }

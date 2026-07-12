@@ -3,4 +3,5 @@ export const STATUS = {
     MOVE: 'move',
     ACTION: 'action',
     CHASE: 'chase',
+    PERCH: 'perch',
 }
