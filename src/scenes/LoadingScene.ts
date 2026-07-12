@@ -114,14 +114,14 @@ export default class LoadingScene extends Phaser.Scene {
             this.catMoveAngleCorrection = papiluCatConfig.catMove.angleCorrection
         } else {
             this.catIdleImg = defaultCatIdleImg
-            this.catIdleWidth = 32
-            this.catIdleHeight = 48
+            this.catIdleWidth = 24
+            this.catIdleHeight = 36
             this.catIdleStartIndex = 0
             this.catIdleEndIndex = 3
             this.catIdleFrameRate = 3
             this.catMoveImg = defaultCatMoveImg
-            this.catMoveWidth = 32
-            this.catMoveHeight = 48
+            this.catMoveWidth = 24
+            this.catMoveHeight = 36
             this.catMoveStartIndex = 0
             this.catMoveEndIndex = 3
             this.catMoveFrameRate = 10
@@ -160,14 +160,14 @@ export default class LoadingScene extends Phaser.Scene {
             this.flyMoveAngleCorrection = papiluCatConfig.flyMove.angleCorrection
         } else {
             this.flyIdleImg = defaultFlyIdleImg
-            this.flyIdleWidth = 24
-            this.flyIdleHeight = 24
+            this.flyIdleWidth = 18
+            this.flyIdleHeight = 18
             this.flyIdleStartIndex = 0
             this.flyIdleEndIndex = 1
             this.flyIdleFrameRate = 3
             this.flyMoveImg = defaultFlyMoveImg
-            this.flyMoveWidth = 24
-            this.flyMoveHeight = 24
+            this.flyMoveWidth = 18
+            this.flyMoveHeight = 18
             this.flyMoveStartIndex = 0
             this.flyMoveEndIndex = 3
             this.flyMoveFrameRate = 12
@@ -179,9 +179,9 @@ export default class LoadingScene extends Phaser.Scene {
         } else {
             this.catActions = [
                 // nap (curled up, breathing)
-                { img: defaultCatAction0Img, width: 32, height: 32, startIndex: 0, endIndex: 3, frameRate: 3 },
+                { img: defaultCatAction0Img, width: 24, height: 24, startIndex: 0, endIndex: 3, frameRate: 3 },
                 // tail play (sitting, tail swishing)
-                { img: defaultCatAction1Img, width: 32, height: 48, startIndex: 0, endIndex: 3, frameRate: 5 },
+                { img: defaultCatAction1Img, width: 24, height: 36, startIndex: 0, endIndex: 3, frameRate: 5 },
             ]
         }
     }

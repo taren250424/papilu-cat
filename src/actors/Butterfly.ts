@@ -39,8 +39,8 @@ export default class Butterfly extends Actor {
 
     private static readonly EVADE_COOLDOWN = 1200
     private static readonly EVADE_SPEED = 0.12
-    private static readonly PERCH_OFFSET_X = 10
-    private static readonly PERCH_OFFSET_Y = -20
+    private static readonly PERCH_OFFSET_X = 8
+    private static readonly PERCH_OFFSET_Y = -15
 
     isPerching(): boolean {
         return this.perching

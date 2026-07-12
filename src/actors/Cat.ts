@@ -10,7 +10,7 @@ export default class Cat extends Actor {
     private chaseTarget: Actor | null = null
 
     private static readonly CHASE_SPEED = 110
-    private static readonly CATCH_DISTANCE = 34
+    private static readonly CATCH_DISTANCE = 28
     private static readonly CHASE_TIMEOUT = 8000
     private static readonly CHASE_TICK = 200
 
