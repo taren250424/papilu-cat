@@ -6,6 +6,7 @@ export interface SpriteConfig {
     endIndex: number
     frameRate: number
 }
-export interface CatMoveConfig extends SpriteConfig {
+export interface MoveConfig extends SpriteConfig {
     angleCorrection: number
 }
+export type CatMoveConfig = MoveConfig

@@ -22,10 +22,10 @@ interface SpriteConfig {
 }
 
 /**
- * Configuration for the moving animation (catMove).
+ * Configuration for a moving animation (catMove, flyMove).
  * Extends SpriteConfig with an optional angle correction.
  */
-interface CatMoveConfig extends SpriteConfig {
+interface MoveConfig extends SpriteConfig {
     /**
      * (Optional) Angle correction in degrees to adjust the sprite's orientation.
      * Default rotation is 0°, which points to the right.
@@ -36,6 +36,9 @@ interface CatMoveConfig extends SpriteConfig {
      */
     angleCorrection?: number
 }
+
+/** @deprecated Use MoveConfig instead. Kept for backward compatibility. */
+type CatMoveConfig = MoveConfig
 
 /**
  * Configuration object to customize PapiluCat's animations.
@@ -60,15 +63,36 @@ interface PapiluCatConfig {
      * is walking or moving around.  
      * If any property is missing, it falls back to default settings.
      */
-    catMove?: Partial<CatMoveConfig>
+    catMove?: Partial<MoveConfig>
 
     /**
-     * (Optional) An array of additional custom animations for special 
-     * cat actions such as reacting or stretching.  
-     * Actions are independent of the default settings and have no initial configuration.  
+     * (Optional) An array of additional custom animations for special
+     * cat actions such as reacting or stretching.
+     * If omitted, default actions (nap, tail play) are used.
      * If any required property is missing in an action, that action will be ignored.
      */
     catActions?: Partial<SpriteConfig>[]
+
+    /**
+     * (Optional) Configuration for the idle animation when the butterfly
+     * is resting.
+     * If any property is missing, it falls back to default settings.
+     */
+    flyIdle?: Partial<SpriteConfig>
+
+    /**
+     * (Optional) Configuration for the flying animation when the butterfly
+     * is moving around.
+     * If any property is missing, it falls back to default settings.
+     */
+    flyMove?: Partial<MoveConfig>
+
+    /**
+     * (Optional) Whether to create the butterfly companion.
+     *
+     * @default true
+     */
+    butterfly?: boolean
 }
 
 /**

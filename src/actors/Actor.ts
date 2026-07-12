@@ -10,6 +10,7 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
 
     protected minDelay: number = 10000
     protected maxDelay: number = 30000
+    protected speedPxPerMs: number = 0.01
 
     protected status: string = STATUS.IDLE
     protected tween: Phaser.Tweens.Tween | null = null
@@ -123,7 +124,7 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
         const targetY = Phaser.Math.Between(start_y, end_y)
 
         const distance = Phaser.Math.Distance.Between(this.x, this.y, targetX, targetY)
-        const duration = distance / 0.01
+        const duration = distance / this.speedPxPerMs
 
         // Sprite is facing up by default.
         const angle = Phaser.Math.Angle.Between(this.x, this.y, targetX, targetY)
@@ -151,7 +152,7 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
         // })
     }
 
-    private emergencyStop() {
+    protected emergencyStop() {
         this.tween?.stop()
         this.moveTimer?.remove()
     }
