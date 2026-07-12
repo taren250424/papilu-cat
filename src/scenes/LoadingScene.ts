@@ -56,10 +56,10 @@ export default class LoadingScene extends Phaser.Scene {
             this.loadingFrameRate = papiluCatConfig.loading?.frameRate
         } else {
             this.loadingImg = defaultLoadingImg
-            this.loadingWidth = 128
-            this.loadingHeight = 128
+            this.loadingWidth = 64
+            this.loadingHeight = 64
             this.loadingStartIndex = 0
-            this.loadingEndIndex = 15
+            this.loadingEndIndex = 7
             this.loadingFrameRate = 10
         }
 
@@ -95,15 +95,15 @@ export default class LoadingScene extends Phaser.Scene {
             this.catIdleImg = defaultCatIdleImg
             this.catIdleWidth = 32
             this.catIdleHeight = 48
-            this.catIdleStartIndex = 4
-            this.catIdleEndIndex = 5
-            this.catIdleFrameRate = 4
+            this.catIdleStartIndex = 0
+            this.catIdleEndIndex = 3
+            this.catIdleFrameRate = 3
             this.catMoveImg = defaultCatMoveImg
             this.catMoveWidth = 32
             this.catMoveHeight = 48
             this.catMoveStartIndex = 0
-            this.catMoveEndIndex = 2
-            this.catMoveFrameRate = 8
+            this.catMoveEndIndex = 3
+            this.catMoveFrameRate = 10
             this.catMoveAngleCorrection = 90
         }
 
