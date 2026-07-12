@@ -40,15 +40,17 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
 
         this.scheduleMovement()
 
-        window.addEventListener('resize', () => { 
-            if (this.isResizeThrottled) return
-            this.isResizeThrottled = true
+        window.addEventListener('resize', this.onWindowResize)
+    }
 
-            this.emergencyStop() 
-            this.enterIdleState()
+    private onWindowResize = () => {
+        if (this.isResizeThrottled) return
+        this.isResizeThrottled = true
 
-            setTimeout(() => { this.isResizeThrottled = false }, 200)
-        })
+        this.emergencyStop()
+        this.enterIdleState()
+
+        setTimeout(() => { this.isResizeThrottled = false }, 200)
     }
 
     update(cam: Phaser.Cameras.Scene2D.Camera, canvasRect: DOMRect): void {
@@ -57,6 +59,8 @@ export default class Actor extends Phaser.Physics.Arcade.Sprite {
     }
 
     destroy(): void {
+        window.removeEventListener('resize', this.onWindowResize)
+        this.tween?.stop()
         this.moveTimer?.remove()
         this.div.remove()
         super.destroy()
