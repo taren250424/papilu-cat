@@ -7,6 +7,8 @@ import PlayingSceneConfig from './PlayingSceneConfig'
 import defaultLoadingImg from '../assets/spritesheets/default_loading.png?base64'
 import defaultCatIdleImg from '../assets/spritesheets/default_catIdle.png?base64'
 import defaultCatMoveImg from '../assets/spritesheets/default_catMove.png?base64'
+import defaultCatAction0Img from '../assets/spritesheets/default_catAction_0.png?base64'
+import defaultCatAction1Img from '../assets/spritesheets/default_catAction_1.png?base64'
 
 export default class LoadingScene extends Phaser.Scene {
     private loadingImg!: string
@@ -109,6 +111,13 @@ export default class LoadingScene extends Phaser.Scene {
 
         if (papiluCatConfig.catActions) {
             this.catActions = papiluCatConfig.catActions
+        } else {
+            this.catActions = [
+                // nap (curled up, breathing)
+                { img: defaultCatAction0Img, width: 32, height: 32, startIndex: 0, endIndex: 3, frameRate: 3 },
+                // tail play (sitting, tail swishing)
+                { img: defaultCatAction1Img, width: 32, height: 48, startIndex: 0, endIndex: 3, frameRate: 5 },
+            ]
         }
     }
 
